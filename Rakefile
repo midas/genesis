@@ -5,11 +5,12 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "genesis"
-    gem.summary = %Q{A data seeding solution for Ruby on Rails}
-    gem.description = %Q{A data seeding solution for Ruby on Rails}
+    gem.summary = %Q{A data seeding solution for Ruby on Rails.}
+    gem.description = %Q{A data seeding solution for Ruby on Rails providing seeding facilities far more advanced than the current built in Ruby on Rails solution.}
     gem.email = "jason@lookforwardenterprises.com"
     gem.homepage = "http://github.com/midas/genesis"
-    gem.authors = ["Jason Harrelson"]
+    gem.authors = ["C. Jason Harrelson (midas)"]
+    gem.add_dependency "activerecord", ">= 2.0"
     gem.add_development_dependency "rspec"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

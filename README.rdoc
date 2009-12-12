@@ -1,6 +1,24 @@
 = genesis
 
-Description goes here.
+A data seeding solution for Ruby on Rails providing seeding facilities far more advanced than the current built 
+in Ruby on Rails solution.
+
+== FEATURES
+
+== PROBLEMS
+
+
+== REQUIREMENTS
+
+== INSTALL
+
+  gem sources -a http://gemcutter.org
+  sudo gem install genesis
+
+Run the prepare seeding generator to create a lib/tasks/genesis.rake file:
+
+  script/generate prepare_seeding
+
 
 == Note on Patches/Pull Requests
  
@@ -13,6 +31,14 @@ Description goes here.
    bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+== LICENSE
 
-Copyright (c) 2009 Jason Harrelson. See LICENSE for details.
+Copyright (c) 2009 C. Jason Harrelson (midas)
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
