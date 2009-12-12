@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["C. Jason Harrelson (midas)"]
-  s.date = %q{2009-12-11}
+  s.date = %q{2009-12-12}
   s.description = %q{A data seeding solution for Ruby on Rails providing seeding facilities far more advanced than the current built in Ruby on Rails solution.}
   s.email = %q{jason@lookforwardenterprises.com}
   s.extra_rdoc_files = [
@@ -26,13 +26,18 @@ Gem::Specification.new do |s|
      "VERSION",
      "genesis.gemspec",
      "lib/genesis.rb",
+     "lib/genesis/active_record_extensions.rb",
+     "lib/genesis/create_schema_seeds.rb",
+     "lib/genesis/schema_seed.rb",
+     "lib/genesis/seeder.rb",
      "rails_generators/genesis/USAGE",
      "rails_generators/genesis/genesis_generator.rb",
-     "rails_generators/genesis/templates/genesis.rake",
      "rails_generators/genesis/templates/genesis_override.rake",
      "rails_generators/genesis/templates/migration.rb",
      "rails_generators/prepare_seeding/USAGE",
      "rails_generators/prepare_seeding/prepare_seeding_generator.rb",
+     "rails_generators/prepare_seeding/templates/genesis.rake",
+     "rails_generators/prepare_seeding/templates/genesis_callbacks.rb",
      "spec/genesis_spec.rb",
      "spec/spec_helper.rb"
   ]
