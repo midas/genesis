@@ -3,12 +3,36 @@
 A data seeding solution for Ruby on Rails providing seeding facilities far more advanced than the current built 
 in Ruby on Rails solution.
 
+
+== HISTORY
+
+This gem is a continuation of my db-seed project (http://github.com/midas/db-seed).
+
+I cannot claim the idea for this plugin or all of the implementation to be entirely mine. I have basically taken the 
+db-populate plugin by Josh Knowles and added some functionality outlined at RailsSpikes and then extended it 
+with my own ideas.  That said, genesis does work more like Rails active record migrations than db-populate or the other 
+db seeding tools currently available.
+
+
 == FEATURES
 
-== PROBLEMS
+* Prepare seeding generator
+* Genesis seed file generator similar to the Rails migration generator
+* Seed version task
+* Seeding task
+* Database mulligan task (runs db:migrate:reset and then seeds)
+
+
+== TODO
+
+* Add option to override Rails db:seed task
+* Add ability to automatically generate the down seed from the up, if possible
 
 
 == REQUIREMENTS
+
+* ActiveRecord >= 2.0
+
 
 == INSTALL
 
@@ -19,6 +43,39 @@ Run the prepare seeding generator to create a lib/tasks/genesis.rake file:
 
   script/generate prepare_seeding
 
+Or to specify which environments to create:
+
+  script/generate prepare_seeding env:[development,staging,production]
+
+Generate a seed file:
+
+  script/generate genesis create_users
+
+Next, simply populate the self.up and self.down methods of the generated seed file.  The seed is a normal Ruby class.
+
+ActiveRecord is extended with the following methods:
+
+=== create_or_update_by_all
+
+  user = User.create_or_update_by_all( :name => 'John Smith', :number => '012345', :status => 'active' )
+
+Will try to find a user with the name 'John Smith' and number '012345'.  If found, will return, otherwise will create 
+the user and return it.
+
+=== create_or_update_by_some
+
+  user = User.create_or_update_by_some( :find_by => { :name => 'John Smith', :status => 'active' }, :number => '012345' )
+
+Will try to find a user with the name 'John Smith' and a status of 'active.'  If found will update with other attributes 
+and save returning it.  If not found, will create the user with all the attributes (name, status and number) and return it.
+
+=== create_or_update_by_{attribute}
+
+  user = User.find_or_update_by_name( :name => 'John Smith', :number => '012345', :status => 'active' )
+
+Will try to find a user with the name 'John Smith.'  If found will update with other attributes and save returning it.  If 
+not found, will create the user with all the attributes (name and number) and return it.
+
 
 == Note on Patches/Pull Requests
  
@@ -28,8 +85,9 @@ Run the prepare seeding generator to create a lib/tasks/genesis.rake file:
   future version unintentionally.
 * Commit, do not mess with rakefile, version, or history.
   (if you want to have your own version, that is fine but
-   bump version in a commit by itself I can ignore when I pull)
+  bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
+
 
 == LICENSE
 

@@ -4,6 +4,8 @@ module Genesis
       load( File.join(File.expand_path(File.dirname(__FILE__)), 'schema_seed.rb') )
     end
 
+    # Verifies that the schema_seeds table exists creating if if it does not exist.
+    #
     def self.verify_or_create_version_table
       unless seed_version_table_exists?
         load( File.join(File.expand_path(File.dirname(__FILE__)), 'create_schema_seeds.rb') )
@@ -13,6 +15,8 @@ module Genesis
       load_schema_seed_model
     end
 
+    # Deletes all records from the schema_seeds table.
+    #
     def self.empty_revisions_table
       if seed_version_table_exists?
         load_schema_seed_model
@@ -29,10 +33,14 @@ module Genesis
       return @current_version
     end
 
+    # Checks if the schema_seeds table exists.
+    #
     def self.seed_version_table_exists?
       ActiveRecord::Base.connection.tables.include?( 'schema_seeds' )
     end
 
+    # Runs the migration process.
+    #
     def self.run( seeds=[], to_version=nil, ignores=[] )
       ignores << 'genesis_callbacks.rb'
       @separator_size = 79

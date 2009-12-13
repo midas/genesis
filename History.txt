@@ -1,0 +1,7 @@
+= 0.0.1 2009-12-12
+
+* Added prepare seeding generator
+* Added seed file generator
+* Added seed version task
+* Added seed task
+* Added mulligan task
