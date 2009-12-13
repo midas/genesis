@@ -1,30 +1,44 @@
 module Genesis
   class Seeder
+    def self.load_schema_seed_model
+      load( File.join(File.expand_path(File.dirname(__FILE__)), 'schema_seed.rb') )
+    end
+
     def self.verify_or_create_version_table
       unless seed_version_table_exists?
         load( File.join(File.expand_path(File.dirname(__FILE__)), 'create_schema_seeds.rb') )
         Genesis::CreateSchemaSeeds.up
       end
 
-      load( File.join(File.expand_path(File.dirname(__FILE__)), 'schema_seed.rb') )
+      load_schema_seed_model
     end
 
     def self.empty_revisions_table
       if seed_version_table_exists?
-        load( File.join(File.expand_path(File.dirname(__FILE__)), 'schema_seed.rb') )
+        load_schema_seed_model
         SchemaSeed.delete_all
       end
+    end
+
+    # Returns the current seed version from the schema_seeds table.
+    #
+    def self.get_current_version
+      return 'No seed version table exists.  Assuming seed version is 0.' unless seed_version_table_exists?
+      load_schema_seed_model
+      determine_current_version
+      return @current_version
     end
 
     def self.seed_version_table_exists?
       ActiveRecord::Base.connection.tables.include?( 'schema_seeds' )
     end
 
-    def self.run( seeds, to_version=nil, ignores=[] )
+    def self.run( seeds=[], to_version=nil, ignores=[] )
       ignores << 'genesis_callbacks.rb'
-      @separator_size = 100
+      @separator_size = 79
       determine_current_version
       map_versions( seeds, ignores )
+      raise 'There are no seeds to execute.' if @versions_map.empty?
       to_version = determine_to_version( to_version )
       determine_and_prepare_seed_direction( to_version )
       if @to_run.empty?
@@ -37,7 +51,8 @@ module Genesis
     private
 
     def self.determine_to_version( to_version )
-      versions = @versions_map.sort
+      versions = @versions_map.empty? ? [] : @versions_map.sort
+      return '' if to_version.blank? && versions.blank?
       return to_version.blank? ? versions[versions.size-1][0] : to_version
     end
 
@@ -65,7 +80,7 @@ module Genesis
       validate_version_existence( to_version ) if to_version
       to_version ||= ''
       @to_run = []
-      return if @current_version == to_version || (@current_version.empty? && to_version == '0') 
+      return if @current_version == to_version || (@current_version.empty? && to_version == '0')
       if to_version > @current_version
         @versions_map = @versions_map.reject { |version, metadata| version <= @current_version || version > to_version}
         @to_run = @versions_map.sort
@@ -118,7 +133,7 @@ module Genesis
     end
 
     def self.log_entry_start( class_name )
-      entry = "\n==  #{class_name}: seeding (#{@method.to_s}) "
+      entry = "==  #{class_name}: seeding (#{@method.to_s}) "
       entry << "="*(@separator_size-entry.length+1) << "\n"
       puts entry
       RAILS_DEFAULT_LOGGER.info entry
@@ -126,7 +141,7 @@ module Genesis
 
     def self.log_entry_finish( class_name, total_time )
       entry = "==  #{class_name}: seeded (#{@method.to_s}) (#{total_time}s) "
-      entry << "="*(@separator_size-entry.length) << "\n"
+      entry << "="*(@separator_size-entry.length) << "\n\n"
       puts entry
       RAILS_DEFAULT_LOGGER.info entry
     end
