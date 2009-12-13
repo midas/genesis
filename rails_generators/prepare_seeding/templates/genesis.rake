@@ -13,4 +13,11 @@ namespace :db do
     Rake::Task['db:migrate:reset'].invoke
     Rake::Task['db:genesis'].invoke
   end
+
+  namespace :genesis do
+    desc "Returns the current seed version from teh schema_seeds table"
+    task :version => :environment do
+      puts "[Genesis Seed Version] #{Genesis::Seeder.get_current_version}"
+    end
+  end
 end
