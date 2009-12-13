@@ -9,9 +9,9 @@ in Ruby on Rails solution.
 This gem is a continuation of my db-seed project (http://github.com/midas/db-seed).
 
 I cannot claim the idea for this plugin or all of the implementation to be entirely mine. I have basically taken the 
-db-populate plugin by Josh Knowles and added some functionality outlined at RailsSpikes and then extended it 
-with my own ideas.  That said, genesis does work more like Rails active record migrations than db-populate or the other 
-db seeding tools currently available.
+db-populate plugin by Josh Knowles and added some functionality outlined at RailsSpikes and then extended it with my 
+own ideas.  That said, genesis does work more like Rails active record migrations than db-populate or the other db 
+seeding tools currently available.
 
 
 == FEATURES
@@ -21,6 +21,9 @@ db seeding tools currently available.
 * Seed version task
 * Seeding task
 * Database mulligan task (runs db:migrate:reset and then seeds)
+* Only run seeds from the all and the current environment folder the task is being 
+  executed within (ie. all seeds from db/seeds and db/seeds/production when rake 
+  db:genesis RAILS_ENV=production)
 
 
 == TODO
@@ -50,6 +53,14 @@ Or to specify which environments to create:
 Generate a seed file:
 
   script/generate genesis create_users
+
+This will generate a seed file for you in the db/seeds directory.
+
+Generate a seed file in a specific environment folder:
+
+  script/generate genesis create_users production
+
+This will generate a seed file for you in the db/seeds/production directory.
 
 Next, simply populate the self.up and self.down methods of the generated seed file.  The seed is a normal Ruby class.
 
