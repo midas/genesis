@@ -124,7 +124,7 @@ module Genesis
     end
 
     def self.run_seed( version, metadata )
-      class_name = metadata[0].camelcase
+      class_name = metadata[0].camelize
       file_name = metadata[1]
       load( file_name )
       klass = class_name.constantize
