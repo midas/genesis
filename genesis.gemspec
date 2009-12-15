@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{genesis}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["C. Jason Harrelson (midas)"]
-  s.date = %q{2009-12-13}
+  s.date = %q{2009-12-15}
   s.description = %q{A data seeding solution for Ruby on Rails providing seeding facilities far more advanced than the current built in Ruby on Rails solution.}
   s.email = %q{jason@lookforwardenterprises.com}
   s.extra_rdoc_files = [

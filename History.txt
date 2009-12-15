@@ -1,3 +1,9 @@
+= 0.0.2 2009-12-15
+
+* Fixed bug with camelcase vs camelize causing different results (ie. methodName vs MethodName) on 
+  linux systems
+
+
 = 0.0.1 2009-12-12
 
 * Added prepare seeding generator
