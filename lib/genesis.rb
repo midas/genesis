@@ -3,6 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'genesis/active_record_extensions'
 require 'genesis/seeder'
+require 'genesis/schema_seed'
 
 module Genesis
   VERSION = '0.0.3'

@@ -1,3 +1,9 @@
+== 1.0.0 2010-07-08
+
+* Using the ActiveRecord#[] method to access the version attribute of the current version.
+* Made the generators Rails 3 compliant.
+
+
 == 0.0.3 2010-01-04
 
 * Fixed a file include issue to make Genesis work with bundler gem.

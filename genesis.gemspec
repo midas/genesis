@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{genesis}
-  s.version = "0.0.3"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["C. Jason Harrelson (midas)"]
-  s.date = %q{2010-01-04}
+  s.date = %q{2010-07-08}
   s.description = %q{A data seeding solution for Ruby on Rails providing seeding facilities far more advanced than the current built in Ruby on Rails solution.}
   s.email = %q{jason@lookforwardenterprises.com}
   s.extra_rdoc_files = [
@@ -25,6 +25,11 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "genesis.gemspec",
+     "lib/generators/genesis/genesis_generator.rb",
+     "lib/generators/genesis/templates/migration.erb",
+     "lib/generators/prepare_genesis/prepare_genesis_generator.rb",
+     "lib/generators/prepare_genesis/templates/genesis.rake",
+     "lib/generators/prepare_genesis/templates/genesis_callbacks.rb",
      "lib/genesis.rb",
      "lib/genesis/active_record_extensions.rb",
      "lib/genesis/create_schema_seeds.rb",
@@ -38,16 +43,18 @@ Gem::Specification.new do |s|
      "rails_generators/prepare_seeding/prepare_seeding_generator.rb",
      "rails_generators/prepare_seeding/templates/genesis.rake",
      "rails_generators/prepare_seeding/templates/genesis_callbacks.rb",
+     "spec/generators/genesis_generator_spec.rb",
      "spec/genesis_spec.rb",
      "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/midas/genesis}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{A data seeding solution for Ruby on Rails.}
   s.test_files = [
-    "spec/genesis_spec.rb",
+    "spec/generators/genesis_generator_spec.rb",
+     "spec/genesis_spec.rb",
      "spec/spec_helper.rb"
   ]
 

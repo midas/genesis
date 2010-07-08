@@ -81,7 +81,7 @@ module Genesis
 
     def self.determine_current_version
       current_seed = SchemaSeed.find( :last, :order => :version )
-      @current_version = current_seed.nil? ? '' : current_seed.version
+      @current_version = current_seed.nil? ? '' : current_seed[:version]
     end
 
     def self.determine_and_prepare_seed_direction( to_version )

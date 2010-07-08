@@ -26,6 +26,12 @@ seeding tools currently available.
   db:genesis RAILS_ENV=production)
 
 
+== COMPATABILITY
+
+* Ruby 1.8
+* Rails 3
+* Rails 2
+
 == TODO
 
 * Add option to override Rails db:seed task
@@ -44,21 +50,25 @@ seeding tools currently available.
 
 Run the prepare seeding generator to create a lib/tasks/genesis.rake file:
 
-  script/generate prepare_seeding
+  rails generate prepare_genesis    # Rails 3
+  script/generate prepare_seeding   # Rails 2
 
 Or to specify which environments to create:
 
-  script/generate prepare_seeding env:[development,staging,production]
+  rails generate prepare_genesis [development,staging,production]       # Rails 3
+  script/generate prepare_seeding env:[development,staging,production]  # Rails 2
 
 Generate a seed file:
 
-  script/generate genesis create_users
+  rails generate genesis create_users    # Rails 3
+  script/generate genesis create_users   # Rails 2
 
 This will generate a seed file for you in the db/seeds directory.
 
 Generate a seed file in a specific environment folder:
 
-  script/generate genesis create_users production
+  rails generate genesis create_users production     # Rails 3
+  script/generate genesis create_users production    # Rails 2
 
 This will generate a seed file for you in the db/seeds/production directory.
 
