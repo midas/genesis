@@ -6,7 +6,7 @@ require 'genesis/seeder'
 require 'genesis/schema_seed'
 
 module Genesis
-  VERSION = '0.0.3'
+  VERSION = '1.1.0'
 end
 
 ActiveRecord::Base.send :include, Genesis::ActiveRecordExtensions if defined? ActiveRecord::Base
