@@ -132,7 +132,8 @@ module Genesis
       log_entry_start( class_name )
       klass.send( @method )
       if @method == :up
-        SchemaSeed.create!( :version => version )
+        # SchemaSeed.create!( :version => version )
+        ActiveRecord::Base.connection.execute( "INSERT INTO schema_seeds(`version`) VALUES('#{version}');" )
       else
         schema_seed = SchemaSeed.find( :first, :conditions => { :version => version } )
         schema_seed.destroy unless schema_seed.nil?
