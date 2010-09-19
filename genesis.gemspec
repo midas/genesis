@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{genesis}
-  s.version = "1.1.0"
+  s.version = "1.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["C. Jason Harrelson (midas)"]
-  s.date = %q{2010-07-27}
+  s.date = %q{2010-09-19}
   s.description = %q{A data seeding solution for Ruby on Rails providing seeding facilities far more advanced than the current built in Ruby on Rails solution.}
   s.email = %q{jason@lookforwardenterprises.com}
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "genesis.gemspec",
      "lib/generators/genesis/genesis_generator.rb",
      "lib/generators/genesis/templates/migration.erb",
+     "lib/generators/genesis_contexts/genesis_contexts_generator.rb",
      "lib/generators/prepare_genesis/prepare_genesis_generator.rb",
      "lib/generators/prepare_genesis/templates/genesis.rake",
      "lib/generators/prepare_genesis/templates/genesis_callbacks.rb",
@@ -39,6 +40,8 @@ Gem::Specification.new do |s|
      "rails_generators/genesis/genesis_generator.rb",
      "rails_generators/genesis/templates/genesis_override.rake",
      "rails_generators/genesis/templates/migration.rb",
+     "rails_generators/genesis_contexts/USAGE",
+     "rails_generators/genesis_contexts/genesis_contexts_generator.rb",
      "rails_generators/prepare_seeding/USAGE",
      "rails_generators/prepare_seeding/prepare_seeding_generator.rb",
      "rails_generators/prepare_seeding/templates/genesis.rake",
@@ -50,7 +53,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/midas/genesis}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{A data seeding solution for Ruby on Rails.}
   s.test_files = [
     "spec/generators/genesis_generator_spec.rb",
@@ -62,7 +65,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 2.0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
     else

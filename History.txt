@@ -1,3 +1,8 @@
+== 1.2.0 2010-09-19
+
+* Make create_or_update_by_* methods able to convert AR objects to IDs if the attribute name includes '_id'.
+
+
 == 1.1.0 2010-07-27
 
 * Fixed issue with version attribute colliding with ActiveRecord's magic attribute name.
