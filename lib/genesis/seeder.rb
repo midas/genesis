@@ -107,7 +107,7 @@ module Genesis
     end
 
     def self.run_seeds
-      callbacks = File.join( RAILS_ROOT, 'db', 'seeds', 'genesis_callbacks.rb' )
+      callbacks = File.join( Rails.root, 'db', 'seeds', 'genesis_callbacks.rb' )
       if File.exists?( callbacks )
         load( callbacks )
         should_run_callbacks = true
