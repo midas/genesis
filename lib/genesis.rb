@@ -6,7 +6,7 @@ require 'genesis/seeder'
 require 'genesis/schema_seed'
 
 module Genesis
-  VERSION = '1.2.0'
+  VERSION = '1.2.1'
   SEEDS_ROOT = 'db/seeds'
 end
 
