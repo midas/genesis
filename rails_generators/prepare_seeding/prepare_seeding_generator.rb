@@ -1,7 +1,7 @@
 class PrepareSeedingGenerator < Rails::Generator::Base
   attr_accessor :opts
   attr_accessor :environments
-  
+
   def initialize( runtime_args, runtime_options = {} )
     super
     @opts = {}
@@ -17,9 +17,9 @@ class PrepareSeedingGenerator < Rails::Generator::Base
       m.file 'genesis_callbacks.rb', 'db/seeds/genesis_callbacks.rb'
     end
   end
-  
+
   private
-  
+
   def parse_args( arguments )
     arguments.each do |arg|
       arg_parts = arg.split( ':' )
@@ -29,10 +29,10 @@ class PrepareSeedingGenerator < Rails::Generator::Base
         opts[arg_parts[0].to_sym] = arg_parts[1]
       end
     end
-    
+
     validate_env_args
   end
-  
+
   def handle_env_arg( val )
     if val.include?( '[' ) && val.include?( ']')
       val.gsub!( /\[/, '' ).gsub!( /\]/, '' )
@@ -45,7 +45,7 @@ class PrepareSeedingGenerator < Rails::Generator::Base
       @environments << val
     end
   end
-  
+
   def validate_env_args
     @environments += %w(development production) if @environments.empty?
   end
