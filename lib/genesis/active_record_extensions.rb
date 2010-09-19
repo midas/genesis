@@ -6,10 +6,11 @@ module Genesis
     end
 
     module ClassMethods
-      # Use all attributes to try and find a record.  If found returns the record.  Otherwise creates 
+      # Use all attributes to try and find a record.  If found returns the record.  Otherwise creates
       # and returns the record.
       #
       def create_or_update_by_all( attrs={} )
+        attrs = extract_ar_object_ids( attrs )
         conditions = attrs
         record = find( :first, :conditions => conditions ) || self.new
         record.attributes = attrs
@@ -17,11 +18,12 @@ module Genesis
         record
       end
 
-      # Use some attributes (the ones passed in as the find_by hash) to try and find a record.  If found 
-      # returns the record.  Otherwise creates and returns the record with all of the attributes (including 
+      # Use some attributes (the ones passed in as the find_by hash) to try and find a record.  If found
+      # returns the record.  Otherwise creates and returns the record with all of the attributes (including
       # the ones in the find_by hash.)
       #
       def create_or_update_by_some( attrs={} )
+        attrs = extract_ar_object_ids( attrs )
         conditions = attrs.delete( :find_by )
         raise 'You must provide a :find_by hash of attributes to search with, ie. :find_by => {:id => 1}' unless conditions
         attrs.merge!( conditions )
@@ -36,6 +38,7 @@ module Genesis
       end
 
       def create_or_update_by( field, attrs={} )
+        attrs = extract_ar_object_ids( attrs )
         find_value = attrs[field]
         conditions = {field => find_value}
         record = find( :first, :conditions => conditions) || self.new
@@ -56,7 +59,23 @@ module Genesis
         end
       end
 
-      #alias_method_chain :method_missing, :create_or_update
+      private
+
+      def extract_ar_object_ids( attrs )
+        # TODO: Fix this technique.  It current flattens any *_attributes => [...] effectively destroying it.
+        # attrs = attrs.map do |attr,val|
+        #   debugger if attr == :citations_attributes
+        #   (attr.to_s.include?('_id') && val.is_a?( ActiveRecord::Base )) ? [attr,val.id] : [attr,val]
+        # end
+        #
+        # Hash[*attrs.flatten]
+
+        attrs.each do |attr,val|
+          if attr.to_s.include?('_id') && val.is_a?( ActiveRecord::Base )
+            attrs[attr] = val.id
+          end
+        end
+      end
     end
   end
 end
