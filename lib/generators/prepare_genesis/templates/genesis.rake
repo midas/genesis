@@ -8,13 +8,18 @@ namespace :db do
 
     contexts = ENV['CONTEXTS']
     unless contexts.nil? || contexts.empty?
+      using_contexts = true
       contexts = expand_contexts if contexts == 'all'
       contexts.split( ',' ).each do |context|
         seeds += Dir[File.join( Rails.root, 'db', 'seeds', 'contexts', context, '*.rb' )]
       end
     end
 
+
+
+    puts "", message( contexts, :using_contexts => using_contexts, :start => true ), ""
     Genesis::Seeder.run( seeds, ENV['VERSION'] || nil, ignores )
+    puts message( contexts, :using_contexts => using_contexts ), "", ""
   end
 
   desc "Drops and recreates all tables along with seeding the database"
@@ -70,4 +75,14 @@ end
 
 def expand_contexts
   Dir[File.join( contexts_root, '*'  )].map { |d| d.split( '/' ).last }.join ','
+end
+
+def message( contexts, options={} )
+  msg = options[:using_contexts] ?
+    "*** #{start_or_end_word( options )} seeding (contexts: #{contexts.split(',').join(', ')})" :
+    "*** #{start_or_end_word( options )} seeding"
+end
+
+def start_or_end_word( options )
+  return options[:start] ? 'Start' : 'End'
 end

@@ -43,7 +43,7 @@ module Genesis
     #
     def self.run( seeds=[], to_version=nil, ignores=[] )
       ignores << 'genesis_callbacks.rb'
-      @separator_size = 79
+      @separator_size = 95
       determine_current_version
       map_versions( seeds, ignores )
       raise 'There are no seeds to execute.' if @versions_map.empty?
@@ -115,12 +115,16 @@ module Genesis
         GenesisCallbacks.send( callback_method ) if GenesisCallbacks.respond_to?( callback_method )
       end
 
+      @time_start_seeding = Time.now
       @to_run.each { |version, metadata| self.run_seed( version, metadata ) }
+      @time_end_seeding = Time.now
 
       if should_run_callbacks
         callback_method = :"after_#{@method}"
         GenesisCallbacks.send( callback_method ) if GenesisCallbacks.respond_to?( callback_method )
       end
+
+      log_seeding_finish
     end
 
     def self.run_seed( version, metadata )
@@ -143,14 +147,21 @@ module Genesis
 
     def self.log_entry_start( class_name )
       entry = "==  #{class_name}: seeding (#{@method.to_s}) "
-      entry << "="*(@separator_size-entry.length+1) << "\n"
+      entry << "="*(@separator_size-entry.length) << "\n"
       puts entry
       RAILS_DEFAULT_LOGGER.info entry
     end
 
     def self.log_entry_finish( class_name, total_time )
       entry = "==  #{class_name}: seeded (#{@method.to_s}) (#{total_time}s) "
-      entry << "="*(@separator_size-entry.length) << "\n\n"
+      num_to_finish = @separator_size-entry.length
+      entry << "="*(num_to_finish) << "\n\n" if num_to_finish > 0
+      puts entry
+      RAILS_DEFAULT_LOGGER.info entry
+    end
+
+    def self.log_seeding_finish
+      entry = "*** Seeding total time: #{@time_end_seeding - @time_start_seeding}s"
       puts entry
       RAILS_DEFAULT_LOGGER.info entry
     end
