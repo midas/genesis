@@ -1,9 +1,26 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'genesis'
-require 'spec'
-require 'spec/autorun'
+require 'rubygems'
+# require 'active_record'
+# require 'rails'
+require 'bundler/setup'
 
-Spec::Runner.configure do |config|
-  
+require 'genesis'
+
+RSpec.configure do |config|
+
+  config.mock_with :rspec
+
+end
+
+class Hash
+
+  # for excluding keys
+  def except(*exclusions)
+    self.reject { |key, value| exclusions.include? key.to_sym }
+  end
+
+  # for overriding keys
+  def with(overrides = {})
+    self.merge overrides
+  end
+
 end
