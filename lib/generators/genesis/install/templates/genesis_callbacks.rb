@@ -1,4 +1,5 @@
 class GenesisCallbacks
+
   def self.before_up
   end
 
@@ -10,4 +11,5 @@ class GenesisCallbacks
 
   def self.after_down
   end
+
 end
