@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     growl
     guard-rspec
     rails
+    genspec
   ).each do |development_dependency|
     s.add_development_dependency development_dependency
   end

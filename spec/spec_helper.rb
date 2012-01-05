@@ -1,7 +1,9 @@
 require 'rubygems'
-# require 'active_record'
-# require 'rails'
+require 'active_record'
+require 'rails'
+require 'rails/generators'
 require 'bundler/setup'
+require 'genspec'
 
 require 'genesis'
 
