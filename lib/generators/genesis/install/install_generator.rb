@@ -15,7 +15,6 @@ module Genesis
 
     def install_seeding
       envs.each { |env| empty_directory "db/seeds/#{env}" }
-      copy_file 'genesis.rake', 'lib/tasks/genesis.rake'
       copy_file 'genesis_callbacks.rb', 'db/seeds/genesis_callbacks.rb'
     end
 

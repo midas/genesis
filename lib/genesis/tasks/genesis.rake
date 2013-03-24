@@ -1,4 +1,5 @@
 namespace :db do
+
   desc "Loads seed data for the current environment."
   task :genesis => :environment do
     Genesis::Seeder.verify_or_create_version_table
@@ -22,10 +23,29 @@ namespace :db do
     puts message( contexts, :using_contexts => using_contexts ), "", ""
   end
 
-  desc "Drops and recreates all tables along with seeding the database"
+  desc "Recreates the databse by migrating down to VERSION=0 and then db:migrate and db:seed"
   task :mulligan => :environment do
-    Rake::Task['db:migrate:reset'].invoke
+    raise 'Cannot seed production' if ENV['RAILS_ENV'] == 'production' || Rails.env.production?
+
+    ENV['VERSION']= '0'
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:migrate'].reenable
+    ENV.delete 'VERSION'
+    Rake::Task["db:migrate"].invoke
+    Genesis::SchemaSeed.delete_all
     Rake::Task['db:genesis'].invoke
+  end
+
+  namespace :mulligan do
+
+    desc 'Recreates database using db:migrate:reset and db:seed (helpful when an irreversible migration is blocking db:mulligan)'
+    task :reset => :environment do
+      raise 'Cannot seed production' if ENV['RAILS_ENV'] == 'production' || Rails.env.production?
+
+      Rake::Task['db:migrate:reset'].invoke
+      Rake::Task['db:genesis'].invoke
+    end
+
   end
 
   desc "An alias for the db:genesis task"
@@ -38,8 +58,10 @@ namespace :db do
     Rake::Task['db:regenesis'].invoke
   end
 
-  desc "Removes all data, runs migrations and then seeds the database"
+  desc "Removes all data and then seeds the database"
   task :regenesis => :environment do
+    raise 'Cannot seed production' if ENV['RAILS_ENV'] == 'production' || Rails.env.production?
+
     ActiveRecord::Base.connection.tables.select { |t| !['schema_migrations', 'schema_seeds', 'versions', 'sessions'].include?( t ) }.each do |table|
       puts "Emptying the #{table} table"
       klass = table.classify.to_s.constantize
@@ -49,11 +71,7 @@ namespace :db do
     puts ''
 
     Genesis::SchemaSeed.delete_all
-    ActiveRecord::Base.connection.execute( 'DELETE FROM `versions`' )
-    ActiveRecord::Base.connection.execute( 'DELETE FROM `sessions`' )
 
-    Rake::Task['db:migrate'].invoke
-    Rake::Task['db:test:prepare'].invoke
     Rake::Task['db:genesis'].invoke
   end
 
