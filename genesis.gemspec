@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   %w(
     gem-dandy
     rspec
-    ruby-debug
+    ruby-debug19
     guard
     rb-fsevent
     growl
