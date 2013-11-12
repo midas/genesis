@@ -20,7 +20,7 @@ seeding tools currently available.
 * Genesis seed file generator similar to the Rails migration generator
 * Seed version task
 * Seeding task
-* Database mulligan task (runs db:migrate:reset and then seeds)
+* Database mulligan task (clears the schema_Seeds table and then runs db:reset)
 * Only run seeds from the all and the current environment folder the task is being 
   executed within (ie. all seeds from db/seeds and db/seeds/production when rake 
   db:genesis RAILS_ENV=production)
