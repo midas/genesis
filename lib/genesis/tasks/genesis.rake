@@ -27,8 +27,25 @@ namespace :db do
   task :mulligan => :environment do
     raise 'Cannot seed production' if ENV['RAILS_ENV'] == 'production' || Rails.env.production?
 
+    ENV['VERSION']= '0'
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:migrate'].reenable
+    ENV.delete 'VERSION'
+    Rake::Task["db:migrate"].invoke
     Genesis::SchemaSeed.delete_all
-    Rake::Task['db:reset'].invoke
+    Rake::Task['db:genesis'].invoke
+  end
+
+  namespace :mulligan do
+
+    desc 'Recreates database using db:migrate:reset and db:seed (helpful when an irreversible migration is blocking db:mulligan)'
+    task :reset => :environment do
+      raise 'Cannot seed production' if ENV['RAILS_ENV'] == 'production' || Rails.env.production?
+
+      Rake::Task['db:migrate:reset'].invoke
+      Rake::Task['db:genesis'].invoke
+    end
+
   end
 
   desc "An alias for the db:genesis task"
