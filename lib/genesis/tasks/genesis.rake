@@ -24,7 +24,7 @@ namespace :db do
       r = ActiveRecord::Base.connection.execute( "SELECT `schema_seeds`.* FROM `schema_seeds`" )
       versions = []
       executes = []
-      r.each_hash { |rec| versions << rec['version'] }
+      r.each_hash { |rec| versions << rec['seed_version'] }
 
       puts '-- DRY RUN --', 'Will execute seeds:', ''
       seeds.reject! { |s| ignores.any? { |i| s.include?( i ) } }
