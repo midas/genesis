@@ -4,7 +4,7 @@ module Genesis
       options = {}
       options.merge!(:guid => false) if defined?( UsesguidMigrations )
       create_table :schema_seeds, options do |t|
-        t.string :version
+        t.string :seed_version
       end
     end
 
