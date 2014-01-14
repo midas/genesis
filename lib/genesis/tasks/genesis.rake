@@ -2,8 +2,11 @@ namespace :db do
 
   desc "Loads seed data for the current environment."
   task :genesis => :environment do
+    dry_run = ENV['DRY_RUN']
+
     Genesis::Seeder.verify_or_create_version_table
-    ignores = %w(genesis_common.rb)
+    ignores = %w(genesis_common.rb
+                 genesis_callbacks.rb)
     seeds = Dir[File.join( Rails.root, 'db', 'seeds', '*.rb' )] +
             Dir[File.join( Rails.root, 'db', 'seeds', Rails.env, '*.rb') ]
 
@@ -16,11 +19,33 @@ namespace :db do
       end
     end
 
-
-
     puts "", message( contexts, :using_contexts => using_contexts, :start => true ), ""
-    Genesis::Seeder.run( seeds, ENV['VERSION'] || nil, ignores )
+    if dry_run
+      r = ActiveRecord::Base.connection.execute( "SELECT `schema_seeds`.* FROM `schema_seeds`" )
+      versions = []
+      executes = []
+      r.each_hash { |rec| versions << rec['version'] }
+
+      puts '-- DRY RUN --', 'Will execute seeds:', ''
+      seeds.reject! { |s| ignores.any? { |i| s.include?( i ) } }
+
+      seeds.each do |s|
+        match = s.match( /^.*\/((\d*)_.*\.rb)$/ )
+        if match
+          executes << match[1] unless versions.include?( match[2] )
+        end
+      end
+
+      puts executes.sort.join( "\n" )
+      puts ''
+    else
+      Genesis::Seeder.run( seeds, ENV['VERSION'] || nil, ignores )
+    end
     puts message( contexts, :using_contexts => using_contexts ), "", ""
+  end
+
+  desc "Loads seed data for the current environment."
+  task :genesis => :environment do
   end
 
   desc "Recreates the databse by migrating down to VERSION=0 and then db:migrate and db:seed"
