@@ -80,8 +80,8 @@ module Genesis
     end
 
     def self.determine_current_version
-      current_seed = SchemaSeed.order( :version ).last
-      @current_version = current_seed.nil? ? '' : current_seed[:version]
+      current_seed = SchemaSeed.order( :seed_version ).last
+      @current_version = current_seed.nil? ? '' : current_seed[:seed_version]
     end
 
     def self.determine_and_prepare_seed_direction( to_version )
@@ -136,7 +136,7 @@ module Genesis
       log_entry_start( class_name )
       klass.send( @method )
       if @method == :up
-        ActiveRecord::Base.connection.execute( "INSERT INTO schema_seeds(#{ActiveRecord::Base.connection.quote_column_name 'version'}) VALUES('#{version}');" )
+        ActiveRecord::Base.connection.execute( "INSERT INTO schema_seeds(#{ActiveRecord::Base.connection.quote_column_name 'seed_version'}) VALUES('#{version}');" )
       else
         schema_seed = SchemaSeed.where( :seed_version => version ).first
         schema_seed.destroy unless schema_seed.nil?
